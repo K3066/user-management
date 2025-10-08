@@ -1,92 +1,61 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import type { FormInst, FormRules } from 'naive-ui'
-import SvgIcon from "@/components/SvgIcon.vue";
-
-const formRef = ref<FormInst | null>(null)
-
-const formValue = ref({
-  tags: '',
-  type: 'local' as 'local' | 'ldap',
-  login: '',
-  password: ''
-})
-
-const typeOptions = [
-  { label: 'LDAP', value: 'ldap' },
-  { label: 'Локальная', value: 'local' }
-]
-
-const FormRules = ref({
-  type: {
-    required: true,
-    trigger: 'blur',
-    message: "Тип обязателен"
-  },
-  login: {
-    required: true,
-    trigger: 'blur',
-    message: "Логин обязателен"
-  },
-  password: {
-    required: () => formValue.value.type === 'local',
-    trigger: 'blur',
-    message: "Пароль обязателен"
-  },
-})
-</script>
-
-
 <template>
-  <n-space>
+  <div class="user-form">
     <n-form
       ref="formRef"
-      :model="formValue"
-      :rules="FormRules"
+      :model="store.accounts"
+      :rules="rules"
       :show-label="false"
+      :show-feedback="false"
+      class="user-form__form"
     >
-      <n-grid  :x-gap="8" :y-gap="8">
-        <n-form-item-gi path="tags" span="6">
-          <n-input v-model:value="formValue.tags" type="textarea" maxlength="50" :autosize="{minRows: 1, maxRows: 2}" placeholder="Метки" />
-        </n-form-item-gi>
-
-        <n-form-item-gi path="type" span="5">
-          <n-select
-            v-model:value="formValue.type"
-            :options="typeOptions"
-          />
-        </n-form-item-gi>
-
-        <n-form-item-gi
-          path="login"
-          :span="formValue.type === 'local' ? 6 : 12"
-        >
-          <n-input v-model:value="formValue.login" placeholder="Логин" />
-        </n-form-item-gi>
-
-        <n-form-item-gi
-          v-if="formValue.type === 'local'"
-          path="password"
-          span="6"
-        >
-          <n-input
-            v-model:value="formValue.password"
-            type="password"
-            placeholder="Пароль"
-            show-password-on="mousedown"
-          />
-        </n-form-item-gi>
-        <n-gi span="1">
-          <n-button quaternary>
-            <n-icon size="20">
-              <svg-icon icon="TrashIcon" />
-            </n-icon>
-          </n-button>
-        </n-gi>
-      </n-grid>
+      <div class="user-form__scroll">
+        <user-form-row
+          v-for="(item, index) in store.accounts"
+          :key="item.id"
+          v-model="store.accounts[index]"
+          :index="index"
+          @remove="store.removeAccount"
+        />
+      </div>
     </n-form>
-  </n-space>
+  </div>
 </template>
 
-<style scoped lang="sass">
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useAccountsStore } from '@/stores/accounts'
+import type { FormInst, FormRules } from 'naive-ui'
+import UserFormRow from '@/components/UserFormRow.vue'
+
+const formRef = ref<FormInst | null>(null)
+const store = useAccountsStore()
+
+const rules: FormRules = {
+  tags: [{ required: true, trigger: 'blur' }],
+  type: [{ required: true, trigger: 'change' }],
+  login: [{ required: true, trigger: 'blur' }],
+  password: [{ required: true, trigger: 'blur' }],
+}
+</script>
+
+<style lang="sass" scoped>
+.user-form
+  display: flex
+  flex-direction: column
+  flex: 1
+  min-height: 0
+
+  &__form
+    display: flex
+    flex-direction: column
+    flex: 1
+    min-height: 0
+
+  &__scroll
+    flex: 1
+    min-height: 0
+    overflow-y: auto
+    display: flex
+    flex-direction: column
+    gap: 12px
 </style>
