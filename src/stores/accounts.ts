@@ -20,7 +20,7 @@ export const useAccountsStore = defineStore(
         tags: '',
         type: 'local',
         login: '',
-        password: '',
+        password: ''
       })
     }
     const removeAccount = (index: number) => {
@@ -31,7 +31,7 @@ export const useAccountsStore = defineStore(
   {
     persist: {
       storage: localStorage, // можно использовать sessionStorage
-      paths: ['accounts'], // какие поля сохранять
-    } as PersistenceOptions,
-  },
+      paths: ['accounts'] // какие поля сохранять
+    } as PersistenceOptions
+  }
 )

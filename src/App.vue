@@ -8,14 +8,18 @@ const store = useAccountsStore()
 
 <template>
   <svg-holder style="display: none" />
-  <n-flex class="folder-wrapper" vertical align="center" style="height: 100%">
+  <n-flex class="folder-wrapper"
+          vertical
+          align="center"
+          style="height: 100%">
     <n-card class="management-card">
       <template #header>
         <div class="management-card__header">
           <div class="management-card__header-title">
             <h2>Учетные записи</h2>
           </div>
-          <n-button size="medium" @click="store.addAccount">
+          <n-button size="medium"
+                    @click="store.addAccount">
             <n-icon size="20">
               <svg-icon icon="PlusIcon" />
             </n-icon>
@@ -25,10 +29,14 @@ const store = useAccountsStore()
       <template #default>
         <div class="management-card__container">
           <n-grid :x-gap="8">
-            <n-gi class="title-margin" span="6">Метки</n-gi>
-            <n-gi class="title-margin" span="5">Тип записи</n-gi>
-            <n-gi class="title-margin" span="6">Логин</n-gi>
-            <n-gi class="title-margin" span="6">Пароль</n-gi>
+            <n-gi class="title-margin"
+                  span="6">Метки</n-gi>
+            <n-gi class="title-margin"
+                  span="5">Тип записи</n-gi>
+            <n-gi class="title-margin"
+                  span="6">Логин</n-gi>
+            <n-gi class="title-margin"
+                  span="6">Пароль</n-gi>
             <n-gi class="title-margin" />
           </n-grid>
           <div class="management-card__accounts">

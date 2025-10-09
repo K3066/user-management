@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const typeOptions = [
   { label: 'LDAP', value: 'ldap' },
-  { label: 'Локальная', value: 'local' },
+  { label: 'Локальная', value: 'local' }
 ]
 
 const emit = defineEmits<{
@@ -20,20 +20,22 @@ const emit = defineEmits<{
 function update<K extends keyof Account>(key: K, value: Account[K]) {
   emit('update:modelValue', {
     ...props.modelValue,
-    [key]: value,
+    [key]: value
   })
 }
 function updateTags<K extends keyof Account>(key: K, value: string) {
   emit('update:modelValue', {
     ...props.modelValue,
-    [key]: Array.from(value.split('; ')),
+    [key]: Array.from(value.split('; '))
   })
 }
 </script>
 
 <template>
-  <n-grid :x-gap="8" :y-gap="8">
-    <n-form-item-gi :path="`${index}tags`" span="6">
+  <n-grid :x-gap="8"
+          :y-gap="8">
+    <n-form-item-gi :path="`${index}tags`"
+                    span="6">
       <n-input
         :value="modelValue.tags"
         type="textarea"
@@ -44,7 +46,8 @@ function updateTags<K extends keyof Account>(key: K, value: string) {
       />
     </n-form-item-gi>
 
-    <n-form-item-gi path="type" span="5">
+    <n-form-item-gi :path="`${index}type`"
+                    span="5">
       <n-select
         :value="modelValue.type"
         :options="typeOptions"
@@ -52,25 +55,31 @@ function updateTags<K extends keyof Account>(key: K, value: string) {
       />
     </n-form-item-gi>
 
-    <n-form-item-gi path="login" :span="modelValue.type === 'local' ? 6 : 12">
+    <n-form-item-gi :path="`${index}login`"
+                    :span="modelValue.type === 'local' ? 6 : 12">
       <n-input
         :value="modelValue.login"
         placeholder="Логин"
+        maxlength="100"
         @update:value="(val: string) => update('login', val)"
       />
     </n-form-item-gi>
 
-    <n-form-item-gi v-if="modelValue.type === 'local'" path="password" span="6">
+    <n-form-item-gi v-if="modelValue.type === 'local'"
+                    :path="`${index}password`"
+                    span="6">
       <n-input
         :value="modelValue.password"
         type="password"
         placeholder="Пароль"
+        maxlength="100"
         show-password-on="mousedown"
         @update:value="(val: string) => update('password', val)"
       />
     </n-form-item-gi>
     <n-gi span="1">
-      <n-button ghost @click="$emit('remove', index)">
+      <n-button ghost
+                @click="$emit('remove', index)">
         <n-icon size="20">
           <svg-icon icon="TrashIcon" />
         </n-icon>

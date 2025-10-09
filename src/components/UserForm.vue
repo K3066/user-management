@@ -8,10 +8,9 @@ const formRef = ref<FormInst | null>(null)
 const store = useAccountsStore()
 
 const rules: FormRules = {
-  tags: [{ required: true, trigger: 'blur' }],
   type: [{ required: true, trigger: 'change' }],
   login: [{ required: true, trigger: 'blur' }],
-  password: [{ required: true, trigger: 'blur' }],
+  password: [{ required: true, trigger: 'blur' }]
 }
 </script>
 
