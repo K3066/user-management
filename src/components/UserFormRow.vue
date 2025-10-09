@@ -13,7 +13,7 @@ const typeOptions = [
 ]
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: any): void
+  (e: 'update:modelValue', value: object): void
   (e: 'remove', index: number): void
 }>()
 
@@ -48,7 +48,7 @@ function updateTags<K extends keyof Account>(key: K, value: string) {
       <n-select
         :value="modelValue.type"
         :options="typeOptions"
-        @update:value="(val: string) => update('type', val)"
+        @update:value="(val: 'local' | 'ldap') => update('type', val)"
       />
     </n-form-item-gi>
 

@@ -1,3 +1,20 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useAccountsStore } from '@/stores/accounts'
+import type { FormInst, FormRules } from 'naive-ui'
+import UserFormRow from '../components/UserFormRow.vue'
+
+const formRef = ref<FormInst | null>(null)
+const store = useAccountsStore()
+
+const rules: FormRules = {
+  tags: [{ required: true, trigger: 'blur' }],
+  type: [{ required: true, trigger: 'change' }],
+  login: [{ required: true, trigger: 'blur' }],
+  password: [{ required: true, trigger: 'blur' }],
+}
+</script>
+
 <template>
   <div class="user-form">
     <n-form
@@ -20,23 +37,6 @@
     </n-form>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useAccountsStore } from '@/stores/accounts'
-import type { FormInst, FormRules } from 'naive-ui'
-import UserFormRow from '@/components/UserFormRow.vue'
-
-const formRef = ref<FormInst | null>(null)
-const store = useAccountsStore()
-
-const rules: FormRules = {
-  tags: [{ required: true, trigger: 'blur' }],
-  type: [{ required: true, trigger: 'change' }],
-  login: [{ required: true, trigger: 'blur' }],
-  password: [{ required: true, trigger: 'blur' }],
-}
-</script>
 
 <style lang="sass" scoped>
 .user-form

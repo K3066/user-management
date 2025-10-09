@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAccountsStore } from '@/stores/accounts'
 import UserForm from '@/components/UserForm.vue'
+import SvgHolder from '@/components/SvgHolder.vue'
 
 const store = useAccountsStore()
 </script>

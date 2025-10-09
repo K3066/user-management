@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import type { PersistenceOptions } from 'pinia-plugin-persistedstate'
 
 export interface Account {
   id: number
@@ -8,25 +10,28 @@ export interface Account {
   password: string
 }
 
-export const useAccountsStore = defineStore('accounts', () => ({
-  state: () => ({
-    accounts: [] as Account[],
-  }),
-  actions: {
-    addAccount() {
-      this.accounts.unshift({
+export const useAccountsStore = defineStore(
+  'accounts',
+  () => {
+    const accounts = ref([] as Account[])
+    const addAccount = () => {
+      accounts.value.unshift({
         id: Date.now(),
         tags: '',
         type: 'local',
         login: '',
         password: '',
       })
-    },
-    removeAccount(index: number) {
-      this.accounts.splice(index, 1)
-    },
+    }
+    const removeAccount = (index: number) => {
+      accounts.value.splice(index, 1)
+    }
+    return { accounts, addAccount, removeAccount }
   },
-  persist: {
-    paths: ['accounts'], // сохраняем только массив
+  {
+    persist: {
+      storage: localStorage, // можно использовать sessionStorage
+      paths: ['accounts'], // какие поля сохранять
+    } as PersistenceOptions,
   },
-}))
+)
